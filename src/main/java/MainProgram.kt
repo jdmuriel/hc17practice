@@ -7,12 +7,13 @@ import java.util.*
 
 
 fun main(params: Array<String>) {
-	//val files = arrayOf ("me_at_the_zoo", "trending_today", "videos_worth_spreading", "kittens")
-	val files = arrayOf ("me_at_the_zoo")
+	val files = arrayOf ("me_at_the_zoo", "trending_today", "videos_worth_spreading", "kittens")
+	//val files = arrayOf ("me_at_the_zoo")
     for (dataset in files) {
         val p = readProblem(File("data/${dataset}.in"))
-        val s1 = SuperSolver()
+        //val s1 = SuperSolver()
         //val s1 = SmallVideosSolver()
+        val s1 = MixerSolver2()
         val s = s1.getSolution(p)
         println ("Score $dataset = ${scoreSolution(s, p )}")
         writeSolution(File("${dataset}.out"), s, p)
