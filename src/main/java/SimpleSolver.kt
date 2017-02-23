@@ -52,18 +52,3 @@ class SmallVideosSolver : ISolver {
 
 }
 
-
-fun writeSolution (f: File, s: Solution, p: Problem) {
-    val fOut = FileWriter(f)
-    fOut.write("${p.caches}\n")
-    (0..p.caches-1).forEach { cacheId ->
-        fOut.write ("$cacheId")
-        (0..p.videos-1).forEach { videoId ->
-            if (s.videoInCache!![videoId][cacheId]) {
-                fOut.write (" $videoId")
-            }
-        }
-        fOut.write ("\n")
-    }
-    fOut.flush()
-}

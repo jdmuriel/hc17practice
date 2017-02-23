@@ -7,11 +7,13 @@ import java.util.*
 
 
 fun main(params: Array<String>) {
-	val dataset = "me_at_the_zoo"
-    val p = readProblem(File ("data/${dataset}.in"))
-    val s1 = SimpleSolver()
-    val s = s1.getSolution (p)
-    writeSolution (File ("data/${dataset}.out"), s)
+	val files = arrayOf ("me_at_the_zoo", "trending_today", "videos_worth_spreading", "kittens")
+    for (dataset in files) {
+        val p = readProblem(File("data/${dataset}.in"))
+        val s1 = SmallVideosSolver()
+        val s = s1.getSolution(p)
+        writeSolution(File("${dataset}.out"), s, p)
+    }
 }
 
 fun readProblem (f: File) : Problem {
@@ -59,11 +61,18 @@ fun readProblem (f: File) : Problem {
 }
 
 
-fun writeSolution (f: File, s: Solution) {
+
+fun writeSolution (f: File, s: Solution, p: Problem) {
     val fOut = FileWriter(f)
-    fOut.write("${s.slices.size}\n")
-    s.slices.forEach { slice ->
-        fOut.write ("${slice.r1} ${slice.c1} ${slice.r2} ${slice.c2}\n")
+    fOut.write("${p.caches}\n")
+    (0..p.caches-1).forEach { cacheId ->
+        fOut.write ("$cacheId")
+        (0..p.videos-1).forEach { videoId ->
+            if (s.videoInCache!![videoId][cacheId]) {
+                fOut.write (" $videoId")
+            }
+        }
+        fOut.write ("\n")
     }
     fOut.flush()
 }
