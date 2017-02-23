@@ -12,7 +12,7 @@ class SimpleSolver : ISolver {
     override fun getSolution(p: Problem): Solution {
         var maxVideo = 0
         var size = 0
-        while (size <= p.cacheCapacity) {
+        while (maxVideo < p.videos && size <= p.cacheCapacity) {
             maxVideo++
             size+=p.videoSize!![maxVideo-1]
         }
@@ -27,11 +27,11 @@ class SimpleSolver : ISolver {
 }
 
 
-class SmallVideos : ISolver {
+class SmallVideosSolver : ISolver {
 
     //Silly solution: put smaller videos fitting in caches in all caches
     override fun getSolution(p: Problem): Solution {
-        val sortedVideos = p.videoSize!!.mapIndexed { i: Int, size: Int -> Pair (i,size) }.sortedByDescending { it.second }
+        val sortedVideos = p.videoSize!!.mapIndexed { i: Int, size: Int -> Pair (i,size) }.sortedBy { it.second }
         val selectedVideoIds = mutableListOf<Int>()
 
         var size = 0
@@ -42,6 +42,7 @@ class SmallVideos : ISolver {
             selectedVideoIds.add (pair.first)
         }
         val s = Solution()
+        s.videoInCache = Array(p.videos) { BooleanArray(p.caches)}
         for (j in selectedVideoIds) {
             for (i in 0..p.caches-1)
                 s.videoInCache!![j][i] = true
@@ -62,6 +63,7 @@ fun writeSolution (f: File, s: Solution, p: Problem) {
                 fOut.write (" $videoId")
             }
         }
+        fOut.write ("\n")
     }
     fOut.flush()
 }
