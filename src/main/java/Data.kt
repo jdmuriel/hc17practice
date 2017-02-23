@@ -8,8 +8,8 @@ class Problem {
 
     var videoSize: IntArray? = null
     var endpointLatency: IntArray? = null //Latency to data center
-    var endpointCacheLatency: Array<IntArray>? = null  //endpointCacheLatency[i][j] is latency from endpoint i to cache j
-    var endpointVideoRequests: Array<IntArray>? = null //endpointVideoRequests[i][j] is number of expected requests from endpoint i for video j
+    var endpointCacheLatency: Array<MutableMap<Int, Int>>? = null  //endpointCacheLatency[i][j] is latency from endpoint i to cache j
+    var endpointVideoRequests: Array<MutableMap<Int, Int>>? = null //endpointVideoRequests[i][j] is number of expected requests from endpoint i for video j
 
 }
 

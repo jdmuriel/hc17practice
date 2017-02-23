@@ -5,33 +5,56 @@ import java.io.FileInputStream
 import java.io.FileWriter
 import java.util.*
 
-/**
- * Created by jesus on 21/02/2017.
- */
 
 fun main(params: Array<String>) {
-    val p = readProblem(File ("D:\\proj\\jdmuriel.com\\hashcode2017\\hc17practice\\small.in"))
+	val dataset = "me_at_the_zoo"
+    val p = readProblem(File ("data/${dataset}.in"))
     val s1 = SimpleSolver()
     val s = s1.getSolution (p)
-    writeSolution (File ("D:\\proj\\jdmuriel.com\\hashcode2017\\hc17practice\\small.out"), s)
-
+    writeSolution (File ("data/${dataset}.out"), s)
 }
 
 fun readProblem (f: File) : Problem {
-    val sc = Scanner (BufferedInputStream(FileInputStream(f)));
+    val sc = Scanner(BufferedInputStream(FileInputStream(f)));
     var p = Problem()
-    p.rows = sc.nextInt();
-    p.cols = sc.nextInt();
-    p.minIng  = sc.nextInt();
-    p.maxCells = sc.nextInt();
-    // Read
-    p.cells = Array(p.rows) { CharArray(p.cols)}
-    (0..p.rows-1).forEach { i ->
-        val row = sc.nextLine().toCharArray()
-        row.forEachIndexed { j, c ->
-            p.cells[i][j] = c
-        }
+	p.videos = sc.nextInt()
+	p.endpointCount = sc.nextInt()
+	p.requests = sc.nextInt()
+	p.caches = sc.nextInt()
+	p.cacheCapacity = sc.nextInt()
+	sc.nextLine()
+
+	p.videoSize = IntArray(p.videos)
+    val row = sc.nextLine().split(" ")
+    row.forEachIndexed { j, c ->
+        p.videoSize!![j] = c.toInt()
     }
+	
+	p.endpointLatency = IntArray(p.endpointCount)
+	p.endpointCacheLatency = Array<MutableMap<Int, Int>>(p.endpointCount) { mutableMapOf() }
+    (0.. p.endpointCount-1).forEach { i ->
+    	p.endpointLatency!![i] = sc.nextInt()
+		
+		val connectedCacheCount = sc.nextInt()
+		(0.. connectedCacheCount-1).forEach { j ->
+			val cache = sc.nextInt()
+			val latency = sc.nextInt()
+			sc.nextLine()
+			p.endpointCacheLatency!![i][cache] = latency
+		}
+    }
+	
+	p.endpointVideoRequests = Array<MutableMap<Int,Int>>(p.endpointCount) { mutableMapOf() }
+	
+    (0.. p.requests-1).forEach { i ->
+		val video = sc.nextInt()
+		val endpoint = sc.nextInt()
+		val latency = sc.nextInt()
+		sc.nextLine()
+		
+		p.endpointVideoRequests!![endpoint].put(video, latency)
+    }
+	
     return p
 }
 
