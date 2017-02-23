@@ -12,6 +12,7 @@ fun main(params: Array<String>) {
         val p = readProblem(File("data/${dataset}.in"))
         val s1 = SmallVideosSolver()
         val s = s1.getSolution(p)
+        println ("Score $dataset = ${scoreSolution(s, p )}")
         writeSolution(File("${dataset}.out"), s, p)
     }
 }
